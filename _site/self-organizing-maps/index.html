@@ -14,7 +14,7 @@
     <meta content="article" property="og:type">
   
   
-    <meta content="lalala" property="og:description">
+    <meta content="Notes of self-organizing maps" property="og:description">
   
   
     <meta content="http://localhost:4000/self-organizing-maps/" property="og:url">
@@ -43,13 +43,13 @@
     <meta name="twitter:url" content="http://localhost:4000/self-organizing-maps/">
   
   
-    <meta name="twitter:description" content="lalala">
+    <meta name="twitter:description" content="Notes of self-organizing maps">
   
   
     <meta name="twitter:image:src" content="http://localhost:4000/assets/img/som.png">
   
 
-	<meta name="description" content="lalala">
+	<meta name="description" content="Notes of self-organizing maps">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<meta property="og:image" content="">
@@ -127,20 +127,88 @@
         <h1 class="page-title">Self-organizing maps</h1>
         <div class="page-date"><span>2019, Aug 06&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
       </header>
-      <p>You’ll find this post in your <code class="highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
+      <h1 id="背景">背景</h1>
+<h2 id="拓扑映射">拓扑映射</h2>
+<p>神经生物学研究表明，不同的感觉输入（运动，视觉，听觉等）以有序的方式映射到大脑皮层的相应区域。这种映射我们称之为拓扑映射，它具有两个重要特性：</p>
+<ul>
+  <li>在表示或处理的每个阶段，每一条传入的信息都保存在适当的上下文（相邻节点）中</li>
+  <li>处理密切相关的信息的神经元之间保持密切，以便它们可以通过短突触连接进行交互</li>
+</ul>
 
-<p>To add new posts, simply add a file in the <code class="highlighter-rouge">_posts</code> directory that follows the convention <code class="highlighter-rouge">YYYY-MM-DD-name-of-post.ext</code> and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.</p>
+<p>我们建立人工的拓扑映射时也遵循拓扑映射形成的原则：“拓扑映射中<strong>输出层神经元的空间位置对应于输入空间的特定域或特征</strong>“。</p>
 
-<p>Jekyll also offers powerful support for code snippets:</p>
+<h2 id="侧抑制现象">侧抑制现象</h2>
+<p>在生物神经系统中，存在着一种侧抑制现象，即一个神经细胞兴奋以后，会对周围其他神经细胞产生抑制作用。这种抑制作用会使神经细胞之间出现竞争，其结果是某些获胜，而另一些则失败。表现形式是获胜神经细胞兴奋，失败神经细胞抑制。</p>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
-  <span class="nb">puts</span> <span class="s2">"Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">"</span>
-<span class="k">end</span>
-<span class="n">print_hi</span><span class="p">(</span><span class="s1">'Tom'</span><span class="p">)</span>
-<span class="c1">#=&gt; prints 'Hi, Tom' to STDOUT.</span></code></pre></figure>
+<p>自组织（竞争型）神经网络就是模拟上述生物神经系统功能的人工神经网络。 在学习算法上，它模拟生物神经元之间的兴奋、协调与抑制、竞争作用的信息处理的动力学原理来指导网络的学习与工作，而不像多层神经网络(MLP)那样是以网络的误差作为算法的准则。竞争型神经网络构成的基本思想是网络的竞争层各神经元竞争对输入模式响应的机会，最后仅有<strong>一个神经元成为竞争的胜者</strong>。这一获胜神经元则表示对输入模式的分类[3]。</p>
 
-<p>Check out the <a href="https://jekyllrb.com/docs/home">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>. If you have questions, you can ask them on <a href="https://talk.jekyllrb.com/">Jekyll Talk</a>.</p>
+<h1 id="目标">目标</h1>
+<p>SOM的主要目标是将任意维度的输入信号模式转换为<strong>一维或二维离散映射</strong> ，并以<strong>拓扑有序</strong>的方式自适应地执行这种变换。在竞争性学习过程中，神经元有选择性地微调来适应各种输入模式（刺激）或输入模式类别。如此调整的神经元（即获胜的神经元）的<strong>位置变得有序</strong>，并且在该网格上创建对于输入特征有意义的坐标系。我们可以将其视为主成分分析（PCA）的非线性推广。
+<img src="../assets/img/SOM/som.png" alt="som" /></p>
 
+<p>如上图所示，蓝色斑点是训练数据的分布，而小白色斑点是从该分布中抽取得到的当前训练数据。首先（左图）SOM节点被任意地定位在数据空间中。我们选择最接近训练数据的节点作为获胜节点（用黄色突出显示）。它被移向训练数据，包括（在较小的范围内）其网格上的相邻节点。经过多次迭代后，网格趋于接近数据分布（右图）。</p>
+
+<h1 id="eg-kohonen网络">E.g. Kohonen网络</h1>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. 初始化权重向量
+While (特征映射稳定){
+    2. 采样 - 从输入空间中抽取一个训练输入向量样本 x_i
+    3. 竞争：寻找获胜神经元 j*
+    4. 权值调整: 获胜的神经元以及其周围神经元对相似输入模式的响应将增强
+}
+</code></pre></div></div>
+
+<p>Kohonen已经证明：在学习结束时．每个权系数向量wj都近似落入到由神经元j所对应的类别的输入模式空间的中心，可以认为权系数向量wj形成了这个输入模式空间的概率结构。所以，权系数向量Wj可作为这个输入模式的最优参考向量。</p>
+
+<h2 id="竞争">竞争</h2>
+<p>与第i个输入<script type="math/tex">x_i</script>最相似的权重向量<script type="math/tex">w_{j^*}</script>判为竞争获胜神经元
+<script type="math/tex">j_i^* = argmax_{j} ( { {w}_j }^T x_i )</script></p>
+
+<h2 id="合作">合作</h2>
+<p>在神经生物学研究中，我们发现在一组兴奋神经元内存在横向的相互作用。当一个神经元被激活时，最近的邻居节点往往比那些远离的邻居节点更兴奋。并且存在一个随距离衰减的拓扑邻域。我们想为我们的SOM中的神经元定义一个类似的拓扑邻域。 如果<script type="math/tex">S_{ij}</script>是神经元网格上神经元i和j之间的横向距离，我们取
+<script type="math/tex">T_{j, j^*}=\exp \left(-\frac{S_{j, j^*}^{2}}{2 {\sigma_t}^{2}}\right)</script>
+作为我们的拓扑邻域。该函数有几个重要的特性：它在获胜的神经元中是最大的，且关于该神经元对称，当距离达到无穷大时，它单调地衰减到零，它是平移不变的（即不依赖于获胜的神经元的位置）。<script type="math/tex">\sigma_t</script>需要随着时间的推移而减少。常见的时间依赖性关系是指数型衰减：
+<script type="math/tex">\sigma(t)=\sigma_{0} \exp \left(-t / \tau_{\sigma}\right)</script></p>
+
+<h2 id="权值调整">权值调整</h2>
+<p>对第i个输入<script type="math/tex">x_i</script>, 调整第j个权值<script type="math/tex">w_j$</script>
+\begin{array}{l}
+\Delta w_{j i}=\eta(t) \cdot T_{j, I(x)}(t) \cdot\left(x_{i}-w_{j i}\right)
+\end{array}
+$$
+每个学习权重更新的效果是将获胜的神经元及其邻居的权向量wi向输入向量x移动。对该过程的迭代进行会使得网络的拓扑有序。</p>
+
+<h2 id="网络输出winner-takes-all">网络输出(Winner Takes All)</h2>
+<p>在每一时刻只有一个输出神经元被激活。这个被激活的神经元称为竞争获胜神经元，而其它神经元的状态被抑制
+<script type="math/tex">% <![CDATA[
+o_j(t+1) = \begin{equation}  
+\left\{  
+             \begin{array}{**lr**}  
+             1 \quad j = j^* &   \\  
+             0 \quad j \ne j^* &    
+             \end{array}  
+\right.  
+\end{equation} %]]></script></p>
+
+<h2 id="局限">局限</h2>
+<ul>
+  <li>网络训练时,有些神经元始终不能获胜,成为“死神经元”。</li>
+  <li>和ART网络不一样，SOM网络在没有经过完整的重新学习之前，不能加入新的类别。</li>
+  <li>当输入模式较少时，分类结果依赖于模式输入的先后次序。</li>
+</ul>
+
+<h2 id="和k-means的不同">和K-Means的不同</h2>
+<ul>
+  <li>每次只是采样数据</li>
+  <li>一个数据点可以对多个类中心（grid）产生影响</li>
+</ul>
+
+<h1 id="references">References</h1>
+<ol>
+  <li>https://www.cnblogs.com/surfzjy/p/7944454.html</li>
+  <li>https://en.wikipedia.org/wiki/Self-organizing_map</li>
+  <li>https://blog.csdn.net/xbinworld/article/details/50818803</li>
+</ol>
 
       <div class="page-footer">
         <div class="page-share">
