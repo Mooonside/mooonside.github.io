@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Region-Based CNN RoadMap - Yifeng's Blog</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="Yifeng's Blog" property="og:site_name">
+  
+    <meta content="Region-Based CNN RoadMap" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="an overview of Region-Based CNN" property="og:description">
+  
+  
+    <meta content="http://localhost:4000/rcnn-overview/" property="og:url">
+  
+  
+    <meta content="2018-02-04T00:00:00+08:00" property="article:published_time">
+    <meta content="http://localhost:4000/about/" property="article:author">
+  
+  
+    <meta content="http://localhost:4000/assets/img/icon.jpg" property="og:image">
+  
+  
+    
+  
+  
+    
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@moonsideOvO">
+  
+    <meta name="twitter:title" content="Region-Based CNN RoadMap">
+  
+  
+    <meta name="twitter:url" content="http://localhost:4000/rcnn-overview/">
+  
+  
+    <meta name="twitter:description" content="an overview of Region-Based CNN">
+  
+  
+    <meta name="twitter:image:src" content="http://localhost:4000/assets/img/icon.jpg">
+  
+
+	<meta name="description" content="an overview of Region-Based CNN">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicon/apple-touch-icon-144x144.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/icon.jpg" alt="Yifeng Chen"></a>
+      </div>
+      <div class="author-name">Yifeng Chen</div>
+      <p>Stay Hungry Stay Foolish</p>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        
+          <li><a href="https://twitter.com/moonsideOvO" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        
+<!--        -->
+<!--          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>-->
+<!--        -->
+        
+          <li class="github"><a href="http://github.com/Mooonside" target="_blank"><i class="fa fa-github"></i></a></li>
+        
+        
+          <li class="linkedin"><a href="https://in.linkedin.com/in//%E6%80%A1%E5%B3%B0-%E9%99%88-a68a53101" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+        
+        
+          <li class="email"><a href="mailto:yifengchen@zju.edu.cn"><i class="fa fa-envelope-o"></i></a></li>
+        
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2019 &copy; Yifeng Chen</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">Region-Based CNN RoadMap</h1>
+        <div class="page-date"><span>2018, Feb 04&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <h2 id="overview">Overview</h2>
+<blockquote>
+  <p>CVPR 14 [ Rich feature hierarchies for accurate object detection and semantic segmentation] introduce cnn to object detection =&gt; RCNN</p>
+</blockquote>
+
+<blockquote>
+  <p>[Fast R-CNN ]
+share feature + joint learn classification &amp; regression</p>
+</blockquote>
+
+<blockquote>
+  <p>[Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks]
+introduces shared-FCN RPN to accelerate region proposals</p>
+</blockquote>
+
+<blockquote>
+  <p>[Mask R-CNN] add segmentation together with object detection in a multi-task style</p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">Model</th>
+      <th style="text-align: right">VOC 2002</th>
+      <th style="text-align: right">VOC 2010</th>
+      <th style="text-align: right">VOC 2012</th>
+      <th style="text-align: right">Train Speed</th>
+      <th style="text-align: right">Test Speed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">rcnn</td>
+      <td style="text-align: right">58.5%</td>
+      <td style="text-align: right">53.7%</td>
+      <td style="text-align: right">53.3%</td>
+      <td style="text-align: right">× 1</td>
+      <td style="text-align: right">× 1</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">fast rcnn</td>
+      <td style="text-align: right">70.0%</td>
+      <td style="text-align: right">68.8%</td>
+      <td style="text-align: right">68.4%</td>
+      <td style="text-align: right">× 9</td>
+      <td style="text-align: right">× 213</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">faster rcnn</td>
+      <td style="text-align: right">73.2%</td>
+      <td style="text-align: right">NULL</td>
+      <td style="text-align: right">70.4%</td>
+      <td style="text-align: right">NULL</td>
+      <td style="text-align: right">× 2130</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">mask rcnn</td>
+      <td style="text-align: right">73.2%</td>
+      <td style="text-align: right">NULL</td>
+      <td style="text-align: right">70.4%</td>
+      <td style="text-align: right">NULL</td>
+      <td style="text-align: right">× 1065</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="rcnn">RCNN</h2>
+<h3 id="pipeline">Pipeline</h3>
+<p><img src="../assets/img/rcnn_overview/rcnn-pipeline.png" alt="rcnn pipeline" />
+<img src="../assets/img/rcnn_overview/rcnn-pipeline2.png" alt="rcnn pipeline" />
+Selective Search =&gt; ROIs =&gt; warp to fixed size =&gt; feed into CNN for features =&gt; feed features into SVM for classification + feed features into a regressor to tune bbox (increase mAP by 3-4 %).</p>
+
+<h3 id="region-proposals">Region Proposals</h3>
+<ul>
+  <li>author argues that the <em>RF of high-level layer in CNN is too large</em>, making it hard for CNN detector (can be viewed as sliding-window) to propose regions of various sizes(especially small ones), thus they apply SS. (!!LATER PROVED WRONG!!)</li>
+  <li>after get the region, it is extended by p (16) pixels for more context information</li>
+  <li>to get a fixed-length feature map of CNN, rois are resized into fixed sizes before feed them into CNN.</li>
+</ul>
+
+<h3 id="inference--training">Inference &amp; Training</h3>
+<h4 id="inferencetest-time">Inference(Test time)</h4>
+<p>ss =&gt; ~2000 proposals =&gt; cnn + svm =&gt; 2000 proposals, each with K class scores =&gt; class-wise NMS</p>
+
+<h4 id="training">Training</h4>
+<h4 id="fine-tuning-cnn">fine-tuning cnn</h4>
+<ul>
+  <li>Use all warped region proposals as training samples, with [label = i if iou with truth &gt; 0.5 else 0]</li>
+</ul>
+
+<h4 id="train-svm-classifiers">train svm classifiers</h4>
+<ul>
+  <li>Use cnn features as input, with [label = i if iou with truth &gt; 0.3 else 0]. (tiny changes in 0.3 can cause grate perfomance drop!!!)</li>
+  <li>use hard negative mining</li>
+</ul>
+
+<h3 id="insights">Insights</h3>
+<ul>
+  <li>the author uses features from different layers in CNN. BEEORE fine-tuning, pool_5 achieves almost the same accuracy with fc_6 and fc_7, indicating <strong>CONV LAYERS EXTRACT GERNERAL INFORMATIONS MOSTLY. ** AFTER fine-tuning, fc_7 is 8.0 % better, indicating **DOMAIN-SPECIFIC KNOWLEDGE IS LEARNT BY FC.</strong></li>
+</ul>
+
+<h2 id="fast-rcnn">Fast RCNN</h2>
+<h3 id="pipeline-1">Pipeline</h3>
+<p><img src="../assets/img/rcnn_overview/fastrcnn-pipeline.png" alt="fastrcnn pipeline" />
+<img src="../assets/img/rcnn_overview/frcnn-pipeline2.png" alt="fastrcnn pipeline" /></p>
+
+<h3 id="problems-of-rcnn">Problems of RCNN</h3>
+<ul>
+  <li>training is multi-stage : ss don’t need training(obviously), CNN fine-tune and SVM classifier has to be separately trained (slow &amp; need store gigas of features) =&gt; Use FC tacked on CNN to jointly learn the network.</li>
+  <li>object detection is slow : region proposals have large RF, thus they actually perceive the whole image. However, the computation is repeated as feeding them separately into CNN. =&gt; <strong>share feature</strong> : use CNN to calculate whole feature map, and crop corresponding ROI on it + use <strong>SVD</strong> to accelerate FC layer.</li>
+</ul>
+
+<h3 id="roi-pooling">ROI Pooling</h3>
+<p>A special case of spcial pyramid pooling used in SPP-Net. It divides the h × w RoI window into an H × W grid of sub-windows of approximate size h/H × w/W and then max-pooling the values in each sub-window into the corresponding output grid cell. This saves <strong>image warp</strong> step in rcnn.</p>
+<h4 id="backwards-propagation-of-roi-pooling">Backwards Propagation of ROI Pooling</h4>
+<p><script type="math/tex">\frac{\partial L}{\partial x_i} = \sum_r \sum_j [i=i^{*}(r,j)]\frac{\partial L}{\partial y_{r,j}}</script></p>
+
+<p><script type="math/tex">y_{r,j}</script> refers to the <script type="math/tex">j^{th}</script> sampling point from <script type="math/tex">r^{th}</script> region.</p>
+
+<p><script type="math/tex">[i=i^{*}(r,j)]</script> indicates whether <script type="math/tex">y_{r,j}</script> comes from <script type="math/tex">x_i</script> from original roi.</p>
+
+<h3 id="joint-learning">Joint Learning</h3>
+<p><script type="math/tex">L(p,u,t^u,v) = L_{cls}(p, u) + \lambda [u \ge 1] L_{loc}(t^u, v), \lambda =1</script></p>
+
+<p><script type="math/tex">u</script> is the truth label, while u=0 is background, whose regression loss don’t count.</p>
+
+<p><script type="math/tex">L_{loc}</script> is the smooth L1 function, which avoids gradient explosion of L2.</p>
+<h4 id="details">Details</h4>
+<ul>
+  <li>fine tuning does’t include all layers, the conv_1 layers learns most general information and should be freezed for better performance (acc./speed.)</li>
+  <li>each batch is composed of 128 rois from 2 images, each with 16 pos and 32 neg rois.</li>
+  <li>hard negative : <script type="math/tex">iou \in [0.1, 0.5)</script> is labeled negative</li>
+  <li>data augmentation :  images are horizontally flipped with probability 0.5.</li>
+</ul>
+
+<h3 id="insights-1">Insights</h3>
+<h4 id="multi-task--two-stage">Multi-task / Two Stage?</h4>
+<p>Training with multi-task and remove bbox regression when testing shows better performance than merely training on <script type="math/tex">L_{cls}</script> ; Train separately also performs worse than multi-task.</p>
+<h4 id="scale-invariance">Scale Invariance?</h4>
+<p>Author argues that  deep ConvNets are adept at directly learning scale invariance. He sacles the inputs into 5 sclaes for training and testing, and mAP only imporves 0.5%. [??? but not clear test strategy given ???]</p>
+<h4 id="more-training-data--proposals">More training data / proposals??</h4>
+<p>Yes, more data more accuracy. But More <strong>low-quality proposals</strong> hurt mAP!</p>
+<h4 id="svm--softmax">SVM / Softmax?</h4>
+<p>SVM slightly better (+ 0.1 - 0.8)</p>
+
+<h2 id="faster-rcnn">Faster RCNN</h2>
+<h3 id="pipeline-2">Pipeline</h3>
+<p><img src="../assets/img/rcnn_overview/fasterrcnn-pipeline.png" alt="fasterrcnn" /></p>
+
+<h3 id="rpn">RPN</h3>
+<ul>
+  <li>slide a n×n(n=3) window over feature map, for each window in feature-map propose K anchors (K=3*3)</li>
+  <li>each anchor is centered at the sliding window.</li>
+  <li>each anchor has TWO scores , indicating its objectness and 4 regression values, with 6 values in total.</li>
+  <li>By experiment: RPN’s proposals’ RECALL curve is better than ss!, IT has accurate top rank proposals.</li>
+  <li>??? Authors claim this scale and aspect ratio method is translation invariant, while k-means used in Multi-Box is. ???
+<img src="../assets/img/rcnn_overview/rpn.png" alt="rpn" /></li>
+</ul>
+
+<h4 id="loss-for-rpn">Loss for RPN</h4>
+<ul>
+  <li>
+    <script type="math/tex; mode=display">L(\{p_i\},\{t_i\}) = \frac{1}{N_{cls}} \sum_i L_{cls}(p_i, p_i^*) + \lambda \frac{1}{N_{reg}} \sum_
+i p_i^* L_{reg}(t_i, t_i^*)</script>
+  </li>
+  <li><script type="math/tex">N_{cls}</script> is 256, mini-batchsize, <script type="math/tex">\lambda</script> is 10</li>
+  <li><script type="math/tex">N_{reg}</script> is ~2400, the size of the feature map.</li>
+</ul>
+
+<p><strong>Two types of Positive Anchors</strong></p>
+<ul>
+  <li>the anchor[s] with the highest IoU overlap with a ground-truth box. (not necessarily &gt; 0.7)</li>
+  <li>an anchor that has an IoU overlap higher than 0.7 with any ground-truth box</li>
+</ul>
+
+<p><strong>One type of Negative Anchors</strong></p>
+<ul>
+  <li>ious &lt; 0.3</li>
+</ul>
+
+<h4 id="bbox-regression-in-rpn">bbox regression in RPN</h4>
+<ul>
+  <li>different from the one in RCNN : uses fix-size window’s feature as input rather than features pooled from carious sizes. use k bounding box regressor for every aspect and ratio combination, instead of sharing weights.</li>
+  <li><script type="math/tex">t_x = (x - x_a)/w_a</script> , <script type="math/tex">t_x^* = (x^* - x_a) / w_a</script> , <script type="math/tex">x_a</script> , <script type="math/tex">w_a</script> are center x and width of anchor box</li>
+  <li>
+    <script type="math/tex; mode=display">t_w = log(w / w_a), t_w^* = log(w^* / w_a)</script>
+  </li>
+  <li>use <script type="math/tex">t_i</script> (relative style) to predict so that <script type="math/tex">t_i</script> is in a reasonable range, rather than aboslute size of anchors.</li>
+</ul>
+
+<h4 id="share-net-between-rpn-and-fast-rcnn-s-cnn">share net between RPN and Fast RCNN ‘s CNN</h4>
+<ol>
+  <li>initialize with an ImageNet pre-trained model and fine-tuned for the region proposal task.</li>
+  <li>train a separate detection network by Fast R-CNN using the proposals generated by the step-1 RPN</li>
+  <li>use the detector network to initialize RPN training, but only fine-tune the layers unique to RPN.</li>
+  <li>keeping the shared conv layers fixed, we fine-tune the fc layers of the Fast R-CNN.</li>
+</ol>
+
+<h3 id="insights-2">Insights</h3>
+<ul>
+  <li>ACC May increase if samller stride is used in RPN. Powerful Net for RPN can improve mAP.</li>
+  <li>anchor boxes that are larger than the underlying receptive field can be used.(one may still roughly infer the extent of an object if only the middle of the object is visible. )</li>
+  <li>Without net sharing, mAP drops 1 %, the power of more tasks?</li>
+  <li>Two stage is better than one stage detector.</li>
+</ul>
+
+<h2 id="mask-rcnn">Mask RCNN</h2>
+<h4 id="pipeline-3">Pipeline</h4>
+<p>adding a branch for predicting an object mask inparallel with the existing branch for bounding box recognition.</p>
+
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=Region-Based CNN RoadMap&url=http://localhost:4000/rcnn-overview/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/rcnn-overview/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/rcnn-overview/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+        </div>
+      </div>
+      <section class="comment-area">
+  <div class="comment-wrapper">
+    
+    <div id="disqus_thread" class="article-comments"></div>
+    <script>
+      (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//yifengchen.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: [
+      "MathMenu.js",
+      "MathZoom.js",
+      "AssistiveMML.js",
+      "a11y/accessibility-menu.js"
+    ],
+    jax: ["input/TeX", "output/CommonHTML"],
+    TeX: {
+      extensions: [
+        "AMSmath.js",
+        "AMSsymbols.js",
+        "noErrors.js",
+        "noUndefined.js",
+      ]
+    }
+  });
+  MathJax.Hub.Register.StartupHook("TeX Jax Ready",function () {
+    var TEX = MathJax.InputJax.TeX;
+    var COLS = function (W) {
+      var WW = [];
+      for (var i = 0, m = W.length; i < m; i++)
+        {WW[i] = TEX.Parse.prototype.Em(W[i])}
+      return WW.join(" ");
+    };
+    TEX.Definitions.Add({
+      environment: {
+        psmallmatrix: ['Array',null,'(',')','c',COLS([1/3]),".2em",'S',1],
+      }
+    });
+  });
+</script>
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js">
+</script>
+</body>
+</html>
