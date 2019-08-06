@@ -3,7 +3,7 @@ layout: post
 title: "Region-Based CNN RoadMap"
 date: 2018-02-04 00:00:00 +0800
 description: an overview of Region-Based CNN # Add post description (optional)
-img:  # Add image post (optional)
+img:  detection.jpeg # Add image post (optional)
 ---
  
 ## Overview
