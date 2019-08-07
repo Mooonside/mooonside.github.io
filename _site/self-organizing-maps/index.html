@@ -171,11 +171,10 @@ While (特征映射稳定){
 <script type="math/tex">\sigma(t)=\sigma_{0} \exp \left(-t / \tau_{\sigma}\right)</script></p>
 
 <h2 id="权值调整">权值调整</h2>
-<p>对第i个输入<script type="math/tex">x_i</script>, 调整第j个权值<script type="math/tex">w_j$</script>
-\begin{array}{l}
+<p>对第i个输入<script type="math/tex">x_i</script>, 调整第j个权值<script type="math/tex">w_j</script>
+<script type="math/tex">\begin{array}{l}
 \Delta w_{j i}=\eta(t) \cdot T_{j, I(x)}(t) \cdot\left(x_{i}-w_{j i}\right)
-\end{array}
-$$
+\end{array}</script>
 每个学习权重更新的效果是将获胜的神经元及其邻居的权向量wi向输入向量x移动。对该过程的迭代进行会使得网络的拓扑有序。</p>
 
 <h2 id="网络输出winner-takes-all">网络输出(Winner Takes All)</h2>
