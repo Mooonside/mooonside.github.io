@@ -53,7 +53,7 @@ $$
 $$
 
 ## 权值调整
-对第i个输入$$x_i$$, 调整第j个权值$$w_j$
+对第i个输入$$x_i$$, 调整第j个权值$$w_j$$
 $$
 \begin{array}{l}
 \Delta w_{j i}=\eta(t) \cdot T_{j, I(x)}(t) \cdot\left(x_{i}-w_{j i}\right)
